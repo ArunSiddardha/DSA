@@ -6,7 +6,7 @@ class Node
 public:
     int data;
     Node *next;
-    // Node(){}//empty constructor
+    Node(){}//empty constructor
     Node(int x)
     {
         data = x;
@@ -44,27 +44,52 @@ return head;
 void printlist(Node* head)
 {
   Node* temp =head;
+
   while(temp->next !=NULL)
   {
     cout << temp->data<< " ";
     temp = temp->next;
-    if(temp->next ==NULL){
+
+    if(temp->next ==NULL)
+    {
       cout << temp->data;
     }
+
   }
 
 
 }
-Node* delete_node(Node* head,int key)//take the input head and the key
+//deleting the xth position Node
+Node* delete_node_pos(Node* head,int pos){
+  Node* temp = head;
+  Node* prev = new Node();
+  pos = pos-1;
+  while(pos--)
+  {
+    prev = temp;
+    temp = temp->next;
+  }
+
+  prev->next = temp->next;
+  delete temp;
+  return head;
+
+}
+
+//deleting the node for the given key
+Node* delete_node_key(Node* head,int key)//take the input head and the key
 {
   Node* temp=head; // store the head in the temp
   Node* prev;//take a node pointer to store the prev value
-  while(temp->data != key){
+
+  while(temp->data != key)
+  {
     prev=temp;
     temp = temp->next;
   }
-    prev->next = temp->next;
-    delete temp;
+
+    prev->next = temp->next; // update the linked list
+    delete temp; //free up the memory part
     return head;
 }
 
@@ -81,9 +106,13 @@ int main()
             cin >> l;
             head = ins_end(head, l);//pass the head
         }
-        int key;
-        cin>> key;
-        delete_node(head,key);
+        int pos;
+        cin >> pos;
+        delete_node_pos(head, pos);
         printlist(head);
+        // int key;
+        // cin >> key;
+        // delete_node_key(head,key);
+        // printlist(head);
     }
 }
